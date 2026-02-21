@@ -22,6 +22,12 @@ exports.postLogin = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
-    res.clearCookie('auth');
+    res.cookie('auth','false')
+    res.cookie('token',null)
+
+    res.clearCookie('auth', {
+        httpOnly: true
+    });
+    res.clearCookie('token')
     res.redirect('/login');
 };
