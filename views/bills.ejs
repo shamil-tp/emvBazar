@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Invoice | EMV Bazar</title>
     <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/favicon.ico">
+<meta name="theme-color" content="#0d6efd">
+<link rel="apple-touch-icon" href="/image/icon-192x192.png">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
@@ -298,7 +301,20 @@
                     VIEW INVOICE</button>
             </div>
         </div>
-
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((registration) => {
+        console.log("Service Worker registered:", registration.scope);
+      })
+      .catch((err) => {
+        console.log("Service Worker registration failed:", err);
+      });
+  });
+}
+</script>
 
         <script>
             // Set default date to today
