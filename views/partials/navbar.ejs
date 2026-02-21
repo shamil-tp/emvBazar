@@ -4,6 +4,15 @@
         <a href="/" class="<%= currentPage === 'home' ? 'active' : '' %>">Home</a>
         <a href="/add-user" class="<%= currentPage === 'addUser' ? 'active' : '' %> add-btn">Add User</a>
         <a href="/bills" class="<%= currentPage === 'bills' ? 'active' : '' %>">Bills</a>
+        <!-- Install Button for Desktop -->
+        <button id="installBtnDesktop" class="install-btn" style="display: none;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Install
+        </button>
         <a href="/logout">Logout</a>
     </div>
 </nav>
@@ -67,7 +76,8 @@
         align-items: center;
     }
 
-    .nav-links a {
+    .nav-links a,
+    .install-btn {
         text-decoration: none;
         color: var(--text-dark);
         font-weight: 600;
@@ -75,10 +85,19 @@
         padding: 0.5rem 1rem;
         border-radius: 8px;
         transition: all 0.2s;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: none;
+        font-family: inherit;
+        font-size: 1rem;
     }
 
     .nav-links a:hover,
-    .nav-links a.active {
+    .nav-links a.active,
+    .install-btn:hover {
         background: #fff7ed;
         color: var(--primary-orange);
     }
@@ -153,3 +172,59 @@
         }
     }
 </style>
+
+<script>
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+        // Stash the event so it can be triggered later.
+        deferredPrompt = e;
+
+        // Update UI to notify the user they can add to home screen
+        const installBtnDesktop = document.getElementById('installBtnDesktop');
+        const installBtnMobile = document.getElementById('installBtnMobile');
+
+        if (installBtnDesktop) installBtnDesktop.style.display = 'flex';
+        if (installBtnMobile) installBtnMobile.style.display = 'flex';
+    });
+
+    const handleInstall = async () => {
+        if (!deferredPrompt) return;
+        // Show the prompt
+        deferredPrompt.prompt();
+        // Wait for the user to respond to the prompt
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`User response to the install prompt: ${outcome}`);
+        // We've used the prompt, and can't use it again, throw it away
+        deferredPrompt = null;
+
+        // Hide the install buttons
+        const installBtnDesktop = document.getElementById('installBtnDesktop');
+        const installBtnMobile = document.getElementById('installBtnMobile');
+
+        if (installBtnDesktop) installBtnDesktop.style.display = 'none';
+        if (installBtnMobile) installBtnMobile.style.display = 'none';
+    };
+
+    // Attach listener to desktop button if it exists
+    document.addEventListener('DOMContentLoaded', () => {
+        const installBtnDesktop = document.getElementById('installBtnDesktop');
+        if (installBtnDesktop) {
+            installBtnDesktop.addEventListener('click', handleInstall);
+        }
+    });
+
+    // Export handleInstall for use in index.ejs
+    window.handleInstall = handleInstall;
+
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(reg => console.log('Service Worker registered', reg))
+                .catch(err => console.log('Service Worker registration failed', err));
+        });
+    }
+</script>

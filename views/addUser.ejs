@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Add User | EMV Bazar</title>
+  <link rel="manifest" href="/manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
@@ -154,66 +155,66 @@
   <%- include('partials/navbar') %>
 
 
-  <div class="container">
-    <h2>Add New User</h2>
+    <div class="container">
+      <h2>Add New User</h2>
 
-    <% if (success) { %>
-    <div class="alert alert-success">
-      <%= success %>
+      <% if (success) { %>
+        <div class="alert alert-success">
+          <%= success %>
+        </div>
+        <% } %>
+
+          <% if (error) { %>
+            <div class="alert alert-error">
+              <%= error %>
+            </div>
+            <% } %>
+
+              <form action="/add-user" method="POST">
+                <div class="form-group">
+                  <label for="username">Customer Name</label>
+                  <input type="text" id="username" name="username" required placeholder="Ex: John Doe">
+                </div>
+
+                <div class="form-group">
+                  <label for="phone">Phone Number</label>
+                  <input type="text" id="phone" name="phone" required placeholder="Ex: +91 9876543210">
+                </div>
+
+                <div class="form-group">
+                  <label for="type">User Type</label>
+                  <select id="type" name="type" required>
+                    <option value="monthly">Monthly</option>
+                    <option value="fixed">Fixed</option>
+                    <option value="uncertain">Uncertain</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="status">Debt Status</label>
+                  <select id="status" name="status" required>
+                    <option value="unpaid">Unpaid</option>
+                    <option value="paid">Paid</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="dueDate">Due Date (Optional)</label>
+                  <input type="date" id="dueDate" name="dueDate">
+                </div>
+
+                <div class="form-group">
+                  <label for="billNeeded">Bill Needed?</label>
+                  <select id="billNeeded" name="billNeeded">
+                    <option value="false">No (Default)</option>
+                    <option value="true">Yes</option>
+                  </select>
+                </div>
+
+                <button type="submit" class="btn-submit">Add User</button>
+              </form>
+
     </div>
-    <% } %>
-
-    <% if (error) { %>
-    <div class="alert alert-error">
-      <%= error %>
-    </div>
-    <% } %>
-
-    <form action="/add-user" method="POST">
-      <div class="form-group">
-        <label for="username">Customer Name</label>
-        <input type="text" id="username" name="username" required placeholder="Ex: John Doe">
-      </div>
-
-      <div class="form-group">
-        <label for="phone">Phone Number</label>
-        <input type="text" id="phone" name="phone" required placeholder="Ex: +91 9876543210">
-      </div>
-
-      <div class="form-group">
-        <label for="type">User Type</label>
-        <select id="type" name="type" required>
-          <option value="monthly">Monthly</option>
-          <option value="fixed">Fixed</option>
-          <option value="uncertain">Uncertain</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="status">Debt Status</label>
-        <select id="status" name="status" required>
-          <option value="unpaid">Unpaid</option>
-          <option value="paid">Paid</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="dueDate">Due Date (Optional)</label>
-        <input type="date" id="dueDate" name="dueDate">
-      </div>
-
-      <div class="form-group">
-        <label for="billNeeded">Bill Needed?</label>
-        <select id="billNeeded" name="billNeeded">
-          <option value="false">No (Default)</option>
-          <option value="true">Yes</option>
-        </select>
-      </div>
-
-      <button type="submit" class="btn-submit">Add User</button>
-    </form>
-
-  </div>
 </body>
 
 </html>

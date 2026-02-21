@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | EMV Bazar</title>
+    <link rel="manifest" href="/manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
@@ -35,6 +36,7 @@
             padding: 3rem 2rem;
             max-width: 1000px;
             margin: 0 auto;
+            position: relative;
         }
 
         h2 {
@@ -42,6 +44,46 @@
             font-size: 1.8rem;
             font-weight: 800;
             text-align: center;
+        }
+
+        /* Mobile Install Button */
+        .mobile-install-container {
+            display: none;
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            z-index: 10;
+        }
+
+        .install-btn-mobile {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .install-btn-mobile:active {
+            transform: scale(0.9);
+        }
+
+        @media (max-width: 768px) {
+            main {
+                padding: 3rem 1.5rem;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-install-container {
+                display: none !important;
+            }
         }
 
         .grid {
@@ -115,6 +157,17 @@
     <%- include('partials/navbar') %>
 
         <main>
+            <div id="installBtnMobile" class="mobile-install-container" style="display: none;">
+                <button class="install-btn-mobile" onclick="handleInstall()">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                </button>
+            </div>
+
             <h2>Debt Tracker</h2>
 
             <div class="grid">
