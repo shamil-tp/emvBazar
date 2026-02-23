@@ -14,7 +14,7 @@ router.get('/user/:id/edit', authMiddleware, userController.getEditUser);
 router.post('/user/:id/edit', authMiddleware, userController.postEditUser);
 router.post('/user/:id/delete', authMiddleware, userController.deleteUser);
 router.get('/add-user', authMiddleware, userController.getAddUser);
-router.post('/add-user', authMiddleware, userController.postAddUser);
+router.post('/add-user', authMiddleware, userController.addUser);
 router.get('/bills', authMiddleware, userController.getBills);
 router.get('/user-by-phone/:phone', authMiddleware, userController.getByPhone);
 router.post('/api/save-bill', authMiddleware, userController.saveBillData);
